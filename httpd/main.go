@@ -7,11 +7,11 @@ import (
   )
 
 func main(){
-	fmt.Println("hello worl")
+	//fmt.Println("hello worl")
 
 	r := gin.Default()
 
-	r.GET("/ping", handler.PingGet)
+	r.GET("/ping", handler.PingGet())
 
 	r.Run() 
 }

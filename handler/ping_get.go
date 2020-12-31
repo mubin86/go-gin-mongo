@@ -7,11 +7,12 @@ import (
   )
 
 
-func PingGet(c *gin.Context)  {
+func PingGet() gin.HandlerFunc {
 
+	return func(c *gin.Context){
 	c.JSON(http.StatusOK, map[string]string{
 
 		"hello": "yeah got it",
 	})
-
+	}
 }
