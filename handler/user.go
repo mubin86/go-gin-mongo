@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-
+	"github.com/google/uuid"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,10 +33,13 @@ func CreateUser() gin.HandlerFunc {
 			})
 			return
 		}
+		reqBody.ID = uuid.New().String()
 
 		Users = append(Users, reqBody)
+		
 		c.JSON(200, gin.H{
-			"message": "successfully added User",
+		"message": "successfully added User",
+		"data": reqBody,
 		})
 	}
 }
