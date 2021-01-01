@@ -14,11 +14,12 @@ func main() {
 
 	r.GET("/ping", handler.PingGet())
 
-	userRoutes := r.Group("/users")
+	userRoutes := r.Group("/user")
 	{
 		userRoutes.GET("/", handler.GetUsers())
 		userRoutes.POST("/add", handler.CreateUser())
 		userRoutes.PUT("/update/:id", handler.EditUser())
+		userRoutes.DELETE("/delete/:id", handler.DeleteUser())
 
 	}
 	if err := r.Run(":5000"); err != nil {

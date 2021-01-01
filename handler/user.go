@@ -75,13 +75,35 @@ return func(c *gin.Context){
 			return
 		}
 	}
+	c.JSON(404, gin.H{
+		"message": "Invalid ID",
+		"error": true,
+	})
+}
+}
+
+	func DeleteUser() gin.HandlerFunc {
+
+		return func(c *gin.Context) {
+			id :=c.Param("id")
+	
+			for i, u := range Users {
+				if u.ID == id{	
+					Users = append(Users[:i], Users[i+1:] ... )
+		
+					c.JSON(200, gin.H{
+						"message": "delete User data",
+						"data": "finished",
+					})
+					return
+				}
+			}
 
 	c.JSON(404, gin.H{
 		"error": true,
 		"message": "Invalid User ID",
 	})
-} 
-
-
+		
+}
 
 }
