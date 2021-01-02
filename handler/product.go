@@ -110,3 +110,32 @@ func CreateProduct(c *gin.Context)  {
 			})		
 }
 	
+func SingleProduct(c *gin.Context)  {
+	db, _ := connect()
+
+	id := c.Param("id")
+	fmt.Println(id)
+
+	_id, _ := primitive.ObjectIDFromHex(id)
+	fmt.Println(_id)
+
+	product := new(Product)
+
+  err := db.Collection("product").FindOne(ctx, bson.M{"_id": _id}).Decode(&product)
+
+  fmt.Println(*product)
+	
+	if err != nil {
+	log.Fatal(err)
+	c.JSON(404, gin.H{
+		"error":   true,
+		"message": "not found",
+	})
+	return
+}
+
+c.JSON(200, gin.H{
+	"message": "success",
+	"data": product,
+})
+}
