@@ -3,13 +3,14 @@ package handler
 import (
 	"context"
 	"fmt"
-  "os"
+//  "os"
 	"log"
+	"go-mongo/config"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+//	"go.mongodb.org/mongo-driver/mongo"
+//	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Product struct {
@@ -24,31 +25,12 @@ var ctx = func() context.Context {
 //	return context.WithTimeout(context.Background(), 10*time.Second)
 }()
 
-var dbUserName = os.Getenv("DB_USERNAME")
-var dbPassword = os.Getenv("DB_PASSWORD")
-
-//connect database
-func connect() (*mongo.Database, error) {
-
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://dbUserName:dbPassword@cluster0.4xaod.mongodb.net/gomongo"))
-	if err != nil {
-		return nil, err
-	}
-	
-	err = client.Connect(ctx)
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println("connect database successfully")
-	
-	return client.Database("gomongo"), nil
-}
 
 func CreateProduct(c *gin.Context)  {
 
-	db, _ := connect()
+	db, _ := config.Connect()
 
-	//var reqBody Product 
+	//var reqBody Product -
 	product := new(Product)
 	if err :=c.BindJSON(&product); err != nil {
 			c.JSON(422, gin.H{
@@ -74,7 +56,7 @@ func CreateProduct(c *gin.Context)  {
 
 
 	func GetProducts(c *gin.Context)  {
-		db, _ := connect()
+		db, _ := config.Connect()
 	
 		cur, err := db.Collection("product").Find(ctx, bson.D{})
 	
@@ -111,7 +93,7 @@ func CreateProduct(c *gin.Context)  {
 }
 	
 func SingleProduct(c *gin.Context)  {
-	db, _ := connect()
+	db, _ := config.Connect()
 
 	id := c.Param("id")
 	fmt.Println(id)
@@ -142,7 +124,7 @@ c.JSON(200, gin.H{
 
 	
 func UpdateProduct(c *gin.Context)  {
-	db, _ := connect()
+	db, _ := config.Connect()
 
 	product := new(Product)
 	if err :=c.BindJSON(&product); err != nil {
@@ -184,7 +166,7 @@ c.JSON(200, gin.H{
 }
 
 func DeleteProduct(c *gin.Context)  {
-	db, _ := connect()
+	db, _ := config.Connect()
 
 	id := c.Param("id")
 	_id, _ := primitive.ObjectIDFromHex(id)
