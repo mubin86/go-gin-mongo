@@ -183,3 +183,24 @@ c.JSON(200, gin.H{
 
 }
 
+func DeleteProduct(c *gin.Context)  {
+	db, _ := connect()
+
+	id := c.Param("id")
+	_id, _ := primitive.ObjectIDFromHex(id)
+
+  _, err := db.Collection("product").DeleteOne(ctx, bson.M{"_id": _id})
+	if err != nil {
+	log.Fatal(err)
+	c.JSON(404, gin.H{
+		"error":   true,
+		"message": "not found",
+	})
+	return
+}
+
+c.JSON(200, gin.H{
+	"message": "success",
+	"data": gin.H{"_id": id},
+})
+}

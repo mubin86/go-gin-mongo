@@ -33,6 +33,7 @@ func main() {
 		productRoutes.GET("/products",handler.GetProducts)
 		productRoutes.GET("/product/:id",handler.SingleProduct)
 		productRoutes.PUT("/update/:id",handler.UpdateProduct)
+		productRoutes.DELETE("/delete/:id",handler.DeleteProduct)
 	}
 
 
