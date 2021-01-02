@@ -3,14 +3,12 @@ package handler
 import (
 	"context"
 	"fmt"
-//  "os"
 	"log"
 	"go-mongo/config"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-//	"go.mongodb.org/mongo-driver/mongo"
-//	"go.mongodb.org/mongo-driver/mongo/options"
+
 )
 
 type Product struct {
@@ -42,8 +40,11 @@ func CreateProduct(c *gin.Context)  {
 		
 		fmt.Println(product.Title)
 		
-		res,_ :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description})
-
+		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description})
+		
+		if config.Error(c, err) {
+			return //exit
+		}
 		fmt.Println(res.InsertedID)
 
 	_ = db.Collection("product").FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&product)
@@ -61,28 +62,34 @@ func CreateProduct(c *gin.Context)  {
 		cur, err := db.Collection("product").Find(ctx, bson.D{})
 	
 	fmt.Println(cur)
-	 if err != nil {
-		log.Fatal(err)
-		c.JSON(404, gin.H{
-			"error":   true,
-			"message": "something went wrong",
-		})
-		return
-	}	
-
+	//  if err != nil {
+	// 	log.Fatal(err)
+	// 	c.JSON(404, gin.H{
+	// 		"error":   true,
+	// 		"message": "something went wrong",
+	// 	})
+	// 	return
+	// }	
+  if config.Error(c, err) { //hndling with global error 
+		return //exit
+	}
 	defer cur.Close(ctx)
 
 	result := make([]Product, 0)
 	for cur.Next(ctx) {
 		var row Product
 		err := cur.Decode(&row)
-		if err != nil {
-			c.JSON(404, gin.H{
-				"error":   true,
-				"message": "something went wrong",
-			})
-			return
+		// if err != nil {
+		// 	c.JSON(404, gin.H{
+		// 		"error":   true,
+		// 		"message": "something went wrong",
+		// 	})
+		// 	return
+		// }
+		if config.Error(c, err) { //hndling with global error 
+			return //exit
 		}
+
 		result = append(result, row)
 	}
 	fmt.Println(result)
@@ -149,13 +156,9 @@ func UpdateProduct(c *gin.Context)  {
 		return
 	}
   err2 := db.Collection("product").FindOne(ctx, filter).Decode(&product)
-	
-	if err2 != nil {
-	c.JSON(404, gin.H{
-		"error": true,
-		"message": "not found",
-	})
-	return
+
+if config.Error(c, err2) { //hndling with global error 
+	return //exit
 }
 
 c.JSON(200, gin.H{

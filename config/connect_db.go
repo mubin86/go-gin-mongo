@@ -1,13 +1,9 @@
 package config
 
 import (
-  "context"
+	"context"
+//	"os"
 	"fmt"
-//  "os"
-//	"log"
-//	"github.com/gin-gonic/gin"
-	//"go.mongodb.org/mongo-driver/bson"
-	//"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -24,6 +20,7 @@ var ctx = func() context.Context {
 //var dbPassword = os.Getenv("DB_PASSWORD")
 
 //connect database
+
 func Connect() (*mongo.Database, error) {
 
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://:@cluster0.4xaod.mongodb.net/gomongo"))
