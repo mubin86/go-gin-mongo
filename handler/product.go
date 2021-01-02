@@ -115,7 +115,7 @@ func SingleProduct(c *gin.Context)  {
 
 	id := c.Param("id")
 	fmt.Println(id)
-
+	
 	_id, _ := primitive.ObjectIDFromHex(id)
 	fmt.Println(_id)
 
@@ -139,3 +139,47 @@ c.JSON(200, gin.H{
 	"data": product,
 })
 }
+
+	
+func UpdateProduct(c *gin.Context)  {
+	db, _ := connect()
+
+	product := new(Product)
+	if err :=c.BindJSON(&product); err != nil {
+			c.JSON(422, gin.H{
+				"error":   true,
+				"message": "invalid request body",
+			})
+			return
+		}
+
+	id := c.Param("id")
+	_id, _ := primitive.ObjectIDFromHex(id)
+
+	filter := bson.M{"_id": _id}
+
+  _,err := db.Collection("product").UpdateOne(ctx, filter, bson.M{"$set": product})
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error":   true,
+			"message": "something went wrong",
+		})
+		return
+	}
+  err2 := db.Collection("product").FindOne(ctx, filter).Decode(&product)
+	
+	if err2 != nil {
+	c.JSON(404, gin.H{
+		"error": true,
+		"message": "not found",
+	})
+	return
+}
+
+c.JSON(200, gin.H{
+	"message": "succesfully updated",
+	"data": product,
+})
+
+}
+

@@ -32,6 +32,7 @@ func main() {
 		productRoutes.POST("/add",handler.CreateProduct)
 		productRoutes.GET("/products",handler.GetProducts)
 		productRoutes.GET("/product/:id",handler.SingleProduct)
+		productRoutes.PUT("/update/:id",handler.UpdateProduct)
 	}
 
 
