@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
   "os"
+	"log"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -70,3 +71,42 @@ func CreateProduct(c *gin.Context)  {
 		"data": product,
 		})
 	}
+
+
+	func GetProducts(c *gin.Context)  {
+		db, _ := connect()
+	
+		cur, err := db.Collection("product").Find(ctx, bson.D{})
+	
+	fmt.Println(cur)
+	 if err != nil {
+		log.Fatal(err)
+		c.JSON(404, gin.H{
+			"error":   true,
+			"message": "something went wrong",
+		})
+		return
+	}	
+
+	defer cur.Close(ctx)
+
+	result := make([]Product, 0)
+	for cur.Next(ctx) {
+		var row Product
+		err := cur.Decode(&row)
+		if err != nil {
+			c.JSON(404, gin.H{
+				"error":   true,
+				"message": "something went wrong",
+			})
+			return
+		}
+		result = append(result, row)
+	}
+	fmt.Println(result)
+			c.JSON(200, gin.H{
+			"message": "get all products",
+			"data": result,
+			})		
+}
+	

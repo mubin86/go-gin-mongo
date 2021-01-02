@@ -30,7 +30,7 @@ func main() {
 	productRoutes := r.Group("/product")
 	{
 		productRoutes.POST("/add",handler.CreateProduct)
-
+		productRoutes.GET("/products",handler.GetProducts)
 	}
 
 
