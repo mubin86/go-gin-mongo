@@ -2,19 +2,25 @@ package main
 
 import (
 	"fmt"
-	
+
 	"go-mongo/handler"
+	"go-mongo/middleware"
+
 	"github.com/gin-gonic/gin"
 
 	"log"
-//	"time"
+	//	"time"
 )
 
 
 func main() {
 	fmt.Println("hello world")
 
-	r := gin.Default()
+	r := gin.New()
+
+	r.Use(gin.Recovery(), middleware.Logger())
+
+	
 
 	r.GET("/ping", handler.PingGet())
 
