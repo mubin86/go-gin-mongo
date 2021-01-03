@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"os"
 
 	"go-mongo/handler"
 	"go-mongo/middleware"
@@ -12,9 +14,17 @@ import (
 	//	"time"
 )
 
+func setupLogOutput() {
+
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
+
 
 func main() {
 	fmt.Println("hello world")
+
+	setupLogOutput()
 
 	r := gin.New()
 
