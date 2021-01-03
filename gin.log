@@ -13,5 +13,4 @@
 [GIN-debug] PUT    /product/update/:id       --> go-mongo/handler.UpdateProduct (4 handlers)
 [GIN-debug] DELETE /product/delete/:id       --> go-mongo/handler.DeleteProduct (4 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [03 Jan 21 21:46 +06] GET /product/products 401 0s 
-::1 - [03 Jan 21 21:47 +06] GET /product/products 200 16.3120257s 
+::1 - [03 Jan 21 22:00 +06] GET /product/products 200 13.3527529s 
