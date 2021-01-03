@@ -2,16 +2,16 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /ping                     --> go-mongo/handler.PingGet.func1 (3 handlers)
-[GIN-debug] GET    /user/                    --> go-mongo/handler.GetUsers.func1 (3 handlers)
-[GIN-debug] POST   /user/add                 --> go-mongo/handler.CreateUser.func1 (3 handlers)
-[GIN-debug] PUT    /user/update/:id          --> go-mongo/handler.EditUser.func1 (3 handlers)
-[GIN-debug] DELETE /user/delete/:id          --> go-mongo/handler.DeleteUser.func1 (3 handlers)
-[GIN-debug] POST   /product/add              --> go-mongo/handler.CreateProduct (3 handlers)
-[GIN-debug] GET    /product/products         --> go-mongo/handler.GetProducts (3 handlers)
-[GIN-debug] GET    /product/product/:id      --> go-mongo/handler.SingleProduct (3 handlers)
-[GIN-debug] PUT    /product/update/:id       --> go-mongo/handler.UpdateProduct (3 handlers)
-[GIN-debug] DELETE /product/delete/:id       --> go-mongo/handler.DeleteProduct (3 handlers)
+[GIN-debug] GET    /ping                     --> go-mongo/handler.PingGet.func1 (4 handlers)
+[GIN-debug] GET    /user/                    --> go-mongo/handler.GetUsers.func1 (4 handlers)
+[GIN-debug] POST   /user/add                 --> go-mongo/handler.CreateUser.func1 (4 handlers)
+[GIN-debug] PUT    /user/update/:id          --> go-mongo/handler.EditUser.func1 (4 handlers)
+[GIN-debug] DELETE /user/delete/:id          --> go-mongo/handler.DeleteUser.func1 (4 handlers)
+[GIN-debug] POST   /product/add              --> go-mongo/handler.CreateProduct (4 handlers)
+[GIN-debug] GET    /product/products         --> go-mongo/handler.GetProducts (4 handlers)
+[GIN-debug] GET    /product/product/:id      --> go-mongo/handler.SingleProduct (4 handlers)
+[GIN-debug] PUT    /product/update/:id       --> go-mongo/handler.UpdateProduct (4 handlers)
+[GIN-debug] DELETE /product/delete/:id       --> go-mongo/handler.DeleteProduct (4 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [03 Jan 21 21:06 +06] GET /product/product/5ff0696d4c6c3b91a349f332 200 6.0019801s 
-::1 - [03 Jan 21 21:06 +06] GET /product/products 200 5.6424804s 
+::1 - [03 Jan 21 21:46 +06] GET /product/products 401 0s 
+::1 - [03 Jan 21 21:47 +06] GET /product/products 200 16.3120257s 

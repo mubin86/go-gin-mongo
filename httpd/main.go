@@ -28,7 +28,7 @@ func main() {
 
 	r := gin.New()
 
-	r.Use(gin.Recovery(), middleware.Logger())
+	r.Use(gin.Recovery(), middleware.Logger(), middleware.BasicAuth())
 
 	
 
