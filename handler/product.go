@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-mongo/config"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +17,9 @@ type Product struct {
 	Title        string            `json:"title,omitempty" bson:"title,omitempty"`
 	Description  string     `json:"description,omitempty" bson:"description,omitempty"`
 	Price  int     `json:"price,omitempty" bson:"price,omitempty"`
-
+	CreatedAt time.Time   `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	UpdatedAt time.Time   `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
+	
 }
 
 //context
@@ -42,7 +45,8 @@ func CreateProduct(c *gin.Context)  {
 		
 		fmt.Println(product.Title)
 		
-		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description, "price": product.Price,})
+		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description, "price": product.Price, "createdAt": time.Now(),
+		"updatedAt": time.Now(),})
 		
 		if config.Error(c, err) {
 			return //exit
@@ -185,6 +189,8 @@ func DeleteProduct(c *gin.Context)  {
 	})
 	return
 }
+
+
 
 c.JSON(200, gin.H{
 	"message": "success",
