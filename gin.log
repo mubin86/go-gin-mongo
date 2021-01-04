@@ -12,5 +12,7 @@
 [GIN-debug] GET    /product/product/:id      --> go-mongo/handler.SingleProduct (4 handlers)
 [GIN-debug] PUT    /product/update/:id       --> go-mongo/handler.UpdateProduct (4 handlers)
 [GIN-debug] DELETE /product/delete/:id       --> go-mongo/handler.DeleteProduct (4 handlers)
+[GIN-debug] GET    /product/latest/          --> go-mongo/handler.LatestProducts (4 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [05 Jan 21 01:29 +06] POST /product/add 200 13.3957699s 
+[GIN-debug] redirecting request 301: /product/latest/ --> /product/latest/
+::1 - [05 Jan 21 03:38 +06] GET /product/latest/ 200 13.717495s 

@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Product struct {
@@ -19,7 +20,7 @@ type Product struct {
 	Price  int     `json:"price,omitempty" bson:"price,omitempty"`
 	CreatedAt time.Time   `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
 	UpdatedAt time.Time   `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
-	
+	          //primitive.Timestamp   //more type available on timestamp  	
 }
 
 //context
@@ -42,7 +43,9 @@ func CreateProduct(c *gin.Context)  {
 			})
 			return
 		}
-		
+	  	//t := time.Now()
+			//fmt.Println(t.Format(time.ANSIC))
+			
 		fmt.Println(product.Title)
 		
 		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description, "price": product.Price, "createdAt": time.Now(),
@@ -51,7 +54,7 @@ func CreateProduct(c *gin.Context)  {
 		if config.Error(c, err) {
 			return //exit
 		}
-		fmt.Println(res.InsertedID)
+		//fmt.Println(res.InsertedID)
 
 	_ = db.Collection("product").FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&product)
 
@@ -195,5 +198,34 @@ func DeleteProduct(c *gin.Context)  {
 c.JSON(200, gin.H{
 	"message": "success",
 	"data": gin.H{"_id": id},
+})
+}
+
+
+func LatestProducts(c *gin.Context)  {
+	db, _ := config.Connect()
+
+	opts := options.Find()
+  opts.SetSort(bson.D{{"createdAt", -1}})
+
+	sortCursor, err := db.Collection("product").Find(ctx, bson.D{{"price" , bson.D{{"$gt", 500}}}}, opts)
+	
+	if err != nil {
+	log.Fatal(err)
+	c.JSON(404, gin.H{
+		"error":   true,
+		"message": "something went wrong",
+	})
+	return
+}
+
+var productsSorted []bson.M//short way of returning array object
+if err = sortCursor.All(ctx, &productsSorted); err != nil {
+    log.Fatal(err)
+}
+fmt.Println(productsSorted)
+c.JSON(200, gin.H{
+	"message": "success",
+	"data": productsSorted,
 })
 }
