@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
+	"go-mongo/handler"
+	"go-mongo/middleware"
 	"io"
 	"os"
 
-	"go-mongo/handler"
-	"go-mongo/middleware"
-
 	"github.com/gin-gonic/gin"
+	//	gindump "github.com/tpKeeper/gin-dump"
 
 	"log"
-	//	"time"
+	//"time"
 )
 
 func setupLogOutput() {
@@ -29,8 +29,6 @@ func main() {
 	r := gin.New()
 
 	r.Use(gin.Recovery(), middleware.Logger(), middleware.BasicAuth())
-
-	
 
 	r.GET("/ping", handler.PingGet())
 

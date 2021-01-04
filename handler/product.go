@@ -3,18 +3,20 @@ package handler
 import (
 	"context"
 	"fmt"
-	"log"
 	"go-mongo/config"
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-
 )
 
 type Product struct {
-	ID   primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Title string            `json:"title,omitempty" bson:"title,omitempty"`
+	ID  primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Title        string            `json:"title,omitempty" bson:"title,omitempty"`
 	Description  string     `json:"description,omitempty" bson:"description,omitempty"`
+	Price  int     `json:"price,omitempty" bson:"price,omitempty"`
+
 }
 
 //context
@@ -28,7 +30,7 @@ func CreateProduct(c *gin.Context)  {
 
 	db, _ := config.Connect()
 
-	//var reqBody Product -
+	//var reqBody Product 
 	product := new(Product)
 	if err :=c.BindJSON(&product); err != nil {
 			c.JSON(422, gin.H{
@@ -40,7 +42,7 @@ func CreateProduct(c *gin.Context)  {
 		
 		fmt.Println(product.Title)
 		
-		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description})
+		res,err :=db.Collection("product").InsertOne(ctx, bson.M{"title": product.Title, "description": product.Description, "price": product.Price,})
 		
 		if config.Error(c, err) {
 			return //exit
