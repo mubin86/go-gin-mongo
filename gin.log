@@ -15,4 +15,7 @@
 [GIN-debug] GET    /product/latest/          --> go-mongo/handler.LatestProducts (4 handlers)
 [GIN-debug] GET    /product/price            --> go-mongo/handler.PriceBasedProducts (4 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [06 Jan 21 02:22 +06] GET /product/price?price=100 200 13.2069208s 
+::1 - [06 Jan 21 03:47 +06] GET /product/price?lowPrice=4&upPrice=700 200 12.8175496s 
+::1 - [06 Jan 21 03:47 +06] GET /product/price?lowPrice=400&upPrice=700 200 12.4777925s 
+::1 - [06 Jan 21 03:49 +06] GET /product/price?lowPrice=400&upPrice=710 200 12.9507642s 
+::1 - [06 Jan 21 03:49 +06] GET /product/price?lowPrice=200&upPrice=400 200 12.5031177s 

@@ -234,19 +234,23 @@ c.JSON(200, gin.H{
 func PriceBasedProducts(c *gin.Context)  {
 	db, _ := config.Connect()
 
-	price := c.Query("price")  
-//	price := c.Request.URL.Query().Get("price")
+	price := c.Query("lowPrice")  
+//	price := c.Request.URL.Query().Get("lowPrice")
 
-i1, err := strconv.Atoi(price)
+  i1, err := strconv.Atoi(price)
 	 if err != nil {
 		log.Fatal(err);
 	}
-	fmt.Println(i1)
-//	upprice := c.DefaultQuery("upprice", "10")//default query value 10 return if oes not find int the req.query
+	//fmt.Println(i1)
+		upPrice := c.DefaultQuery("upPrice", "10000")//default query value 10000 return if Does not find int the req.query
+		i2, err := strconv.Atoi(upPrice)
+	 if err != nil {
+		log.Fatal(err);
+	}
 	//fmt.Println(upprice)
 
 	
-	sortCursor, err := db.Collection("product").Find(ctx, bson.D{{"price" , bson.D{{"$gt", i1}}}})
+	sortCursor, err := db.Collection("product").Find(ctx, bson.D{{"price" , bson.D{{"$gt", i1},{"$lt", i2}}}})
 	
 	if err != nil {
 	log.Fatal(err)
