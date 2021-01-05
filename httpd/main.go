@@ -49,6 +49,8 @@ func main() {
 		productRoutes.PUT("/update/:id",handler.UpdateProduct)
 		productRoutes.DELETE("/delete/:id",handler.DeleteProduct)
 		productRoutes.GET("/latest/",handler.LatestProducts)
+		productRoutes.GET("/price",handler.PriceBasedProducts)
+
 	}
 
 

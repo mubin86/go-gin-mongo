@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-mongo/config"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -227,5 +228,42 @@ fmt.Println(productsSorted)
 c.JSON(200, gin.H{
 	"message": "success",
 	"data": productsSorted,
+})
+}
+
+func PriceBasedProducts(c *gin.Context)  {
+	db, _ := config.Connect()
+
+	price := c.Query("price")  
+//	price := c.Request.URL.Query().Get("price")
+
+i1, err := strconv.Atoi(price)
+	 if err != nil {
+		log.Fatal(err);
+	}
+	fmt.Println(i1)
+//	upprice := c.DefaultQuery("upprice", "10")//default query value 10 return if oes not find int the req.query
+	//fmt.Println(upprice)
+
+	
+	sortCursor, err := db.Collection("product").Find(ctx, bson.D{{"price" , bson.D{{"$gt", i1}}}})
+	
+	if err != nil {
+	log.Fatal(err)
+	c.JSON(404, gin.H{
+		"error":   true,
+		"message": "something went wrong",
+	})
+	return
+}
+
+var productsPriceBased []bson.M//short way of returning array object
+if err = sortCursor.All(ctx, &productsPriceBased); err != nil {
+    log.Fatal(err)
+}
+fmt.Println(productsPriceBased)
+c.JSON(200, gin.H{
+	"message": "success",
+	"data": productsPriceBased,
 })
 }
