@@ -242,7 +242,7 @@ func PriceBasedProducts(c *gin.Context)  {
 		log.Fatal(err);
 	}
 	//fmt.Println(i1)
-		upPrice := c.DefaultQuery("upPrice", "10000")//default query value 10000 return if Does not find int the req.query
+		upPrice := c.DefaultQuery("upPrice", "10000")//default query value 10 return if Does not find int the req.query
 		i2, err := strconv.Atoi(upPrice)
 	 if err != nil {
 		log.Fatal(err);
@@ -269,5 +269,41 @@ fmt.Println(productsPriceBased)
 c.JSON(200, gin.H{
 	"message": "success",
 	"data": productsPriceBased,
+})
+}
+
+
+func TitleBasedProduct(c *gin.Context)  {
+	db, _ := config.Connect()
+
+	var product Product
+
+  if c.BindQuery(&product) == nil { //another query binding method not body json
+		fmt.Println(product.Title)
+		fmt.Println("====== Only Bind Query String ======")
+		
+	}
+	filter := bson.M{"title": product.Title}
+
+ sortCursor, err := db.Collection("product").Find(ctx, filter)
+	
+	
+	if err != nil {
+	log.Fatal(err)
+	c.JSON(404, gin.H{
+		"error":   true,
+		"message": "something went wrong",
+	})
+	return
+}
+
+var productstitleBased []bson.M//short way of returning array object
+if err = sortCursor.All(ctx, &productstitleBased); err != nil {
+    log.Fatal(err)
+}
+fmt.Println(productstitleBased)
+c.JSON(200, gin.H{
+	"message": "success",
+	"data": productstitleBased,
 })
 }

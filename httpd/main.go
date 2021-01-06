@@ -50,6 +50,7 @@ func main() {
 		productRoutes.DELETE("/delete/:id",handler.DeleteProduct)
 		productRoutes.GET("/latest/",handler.LatestProducts)
 		productRoutes.GET("/price",handler.PriceBasedProducts)
+		productRoutes.GET("/title",handler.TitleBasedProduct)
 
 	}
 

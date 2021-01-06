@@ -14,8 +14,7 @@
 [GIN-debug] DELETE /product/delete/:id       --> go-mongo/handler.DeleteProduct (4 handlers)
 [GIN-debug] GET    /product/latest/          --> go-mongo/handler.LatestProducts (4 handlers)
 [GIN-debug] GET    /product/price            --> go-mongo/handler.PriceBasedProducts (4 handlers)
+[GIN-debug] GET    /product/title            --> go-mongo/handler.TitleBasedProduct (4 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [06 Jan 21 03:47 +06] GET /product/price?lowPrice=4&upPrice=700 200 12.8175496s 
-::1 - [06 Jan 21 03:47 +06] GET /product/price?lowPrice=400&upPrice=700 200 12.4777925s 
-::1 - [06 Jan 21 03:49 +06] GET /product/price?lowPrice=400&upPrice=710 200 12.9507642s 
-::1 - [06 Jan 21 03:49 +06] GET /product/price?lowPrice=200&upPrice=400 200 12.5031177s 
+::1 - [07 Jan 21 00:26 +06] GET /product/products 200 13.6134323s 
+::1 - [07 Jan 21 00:27 +06] GET /product/title?Title=%2077%20newhhh%20HELOOO 200 12.9334668s 
