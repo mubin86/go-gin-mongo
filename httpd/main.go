@@ -5,9 +5,11 @@ import (
 	"go-mongo/handler"
 	"go-mongo/middleware"
 	"io"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+
 	//	gindump "github.com/tpKeeper/gin-dump"
 
 	"log"
@@ -28,7 +30,13 @@ func main() {
 
 	r := gin.New()
 
+
 	r.Use(gin.Recovery(), middleware.Logger(), middleware.BasicAuth())
+
+
+	// Set a lower memory limit for multipart forms (default is 32 MiB)
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
+	r.StaticFS("/asset", http.Dir("./public")) ///***if i give '/' instead of '/asset' then the '/' will conflict with the next route like '/ping' because Static uses *filename wildcard so it will conflict with the next /ping route                              
 
 	r.GET("/ping", handler.PingGet())
 
@@ -53,6 +61,9 @@ func main() {
 		productRoutes.GET("/title",handler.TitleBasedProduct)
 
 	}
+
+
+	r.POST("/upload", handler.FileHandler)
 
 
 	if err := r.Run(":5000"); err != nil {
