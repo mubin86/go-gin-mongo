@@ -2,9 +2,9 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /asset/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] HEAD   /asset/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] GET    /ping                     --> go-mongo/handler.PingGet.func1 (4 handlers)
+[GIN-debug] GET    /asset/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /asset/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] GET    /ping                     --> go-mongo/handler.PingGet.func1 (3 handlers)
 [GIN-debug] GET    /user/                    --> go-mongo/handler.GetUsers.func1 (4 handlers)
 [GIN-debug] POST   /user/add                 --> go-mongo/handler.CreateUser.func1 (4 handlers)
 [GIN-debug] PUT    /user/update/:id          --> go-mongo/handler.EditUser.func1 (4 handlers)
@@ -17,9 +17,8 @@
 [GIN-debug] GET    /product/latest/          --> go-mongo/handler.LatestProducts (4 handlers)
 [GIN-debug] GET    /product/price            --> go-mongo/handler.PriceBasedProducts (4 handlers)
 [GIN-debug] GET    /product/title            --> go-mongo/handler.TitleBasedProduct (4 handlers)
-[GIN-debug] POST   /upload                   --> go-mongo/handler.FileHandler (4 handlers)
+[GIN-debug] POST   /upload                   --> go-mongo/handler.FileHandler (3 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
-::1 - [07 Jan 21 03:38 +06] GET /asset/ 304 999.8µs 
-::1 - [07 Jan 21 03:39 +06] POST /upload 200 16.1311ms 
-::1 - [07 Jan 21 03:40 +06] POST /upload 200 18.0053ms 
-::1 - [07 Jan 21 03:40 +06] POST /upload 200 13.0031ms 
+::1 - [07 Jan 21 04:38 +06] GET /product/products 200 12.9058842s 
+::1 - [07 Jan 21 04:38 +06] GET /product/products 401 0s 
+::1 - [07 Jan 21 04:39 +06] GET /product/products 200 12.5097243s 

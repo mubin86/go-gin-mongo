@@ -68,10 +68,18 @@ func CreateProduct(c *gin.Context)  {
 
 	func GetProducts(c *gin.Context)  {
 		db, _ := config.Connect()
+
+		user := c.MustGet(gin.AuthUserKey).(string) //get the admin keyword
+		fmt.Println(user)//admin
 	
+		// if secret, ok := secrets[user]; ok {
+		// 	c.JSON(http.StatusOK, gin.H{"user": user, "secret": secret})
+		// }
+
+
 		cur, err := db.Collection("product").Find(ctx, bson.D{})
 	
-	fmt.Println(cur)
+	//fmt.Println(cur)
 	//  if err != nil {
 	// 	log.Fatal(err)
 	// 	c.JSON(404, gin.H{
@@ -102,7 +110,7 @@ func CreateProduct(c *gin.Context)  {
 
 		result = append(result, row)
 	}
-	fmt.Println(result)
+	//fmt.Println(result)
 			c.JSON(200, gin.H{
 			"message": "get all products",
 			"data": result,

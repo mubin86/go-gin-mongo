@@ -31,7 +31,7 @@ func main() {
 	r := gin.New()
 
 
-	r.Use(gin.Recovery(), middleware.Logger(), middleware.BasicAuth())
+	r.Use(gin.Recovery(), middleware.Logger(), )
 
 
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
@@ -42,15 +42,18 @@ func main() {
 
 	userRoutes := r.Group("/user")
 	{
-		userRoutes.GET("/", handler.GetUsers())
-		userRoutes.POST("/add", handler.CreateUser())
-		userRoutes.PUT("/update/:id", handler.EditUser())
-		userRoutes.DELETE("/delete/:id", handler.DeleteUser())
+		userRoutes.GET("/", middleware.BasicAuth(),handler.GetUsers())
+		userRoutes.POST("/add", middleware.BasicAuth(),handler.CreateUser())
+		userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.EditUser())
+		userRoutes.DELETE("/delete/:id", middleware.BasicAuth(),handler.DeleteUser())
 
 	}
 
 	productRoutes := r.Group("/product")
+
+	productRoutes.Use(middleware.AdminAuth())
 	{
+		
 		productRoutes.POST("/add",handler.CreateProduct)
 		productRoutes.GET("/products",handler.GetProducts)
 		productRoutes.GET("/product/:id",handler.SingleProduct)

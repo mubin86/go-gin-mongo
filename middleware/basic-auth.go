@@ -8,3 +8,11 @@ func BasicAuth() gin.HandlerFunc{
 		"mubin" : "hello",
 	})
 }
+
+
+func AdminAuth() gin.HandlerFunc{
+
+	return gin.BasicAuth(gin.Accounts{
+		"admin" : "hello new",
+	})
+}
