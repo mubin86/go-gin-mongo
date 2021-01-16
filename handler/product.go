@@ -165,6 +165,9 @@ func UpdateProduct(c *gin.Context)  {
 
 	filter := bson.M{"_id": _id}
 
+
+//	product.UpdatedAt = time.Now()
+
   _,err := db.Collection("product").UpdateOne(ctx, filter, bson.M{"$set": product})
 	if err != nil {
 		c.JSON(404, gin.H{

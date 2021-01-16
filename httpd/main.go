@@ -42,10 +42,10 @@ func main() {
 
 	userRoutes := r.Group("/user")
 	{
-		userRoutes.GET("/", middleware.BasicAuth(),handler.GetUsers())
-		userRoutes.POST("/add", middleware.BasicAuth(),handler.CreateUser())
-		userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.EditUser())
-		userRoutes.DELETE("/delete/:id", middleware.BasicAuth(),handler.DeleteUser())
+		// userRoutes.GET("/", middleware.BasicAuth(),handler.GetUsers())
+		userRoutes.POST("/add", middleware.BasicAuth(),handler.CreateUser)
+		// userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.EditUser())
+		// userRoutes.DELETE("/delete/:id", middleware.BasicAuth(),handler.DeleteUser())
 
 	}
 
