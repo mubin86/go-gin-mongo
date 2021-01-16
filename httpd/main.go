@@ -44,7 +44,7 @@ func main() {
 	{
 		// userRoutes.GET("/", middleware.BasicAuth(),handler.GetUsers())
 		userRoutes.POST("/add", middleware.BasicAuth(),handler.CreateUser)
-		// userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.EditUser())
+		userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.UpdateUser)
 		// userRoutes.DELETE("/delete/:id", middleware.BasicAuth(),handler.DeleteUser())
 
 	}

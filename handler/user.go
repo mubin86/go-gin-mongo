@@ -69,64 +69,46 @@ func CreateUser(c *gin.Context)  {
 	}
 
 
-
-// func EditUser() gin.HandlerFunc {
-
-// return func(c *gin.Context){
-
-// 	id :=c.Param("id")
-
-// 	var reqBody User
-
-// 	if err := c.ShouldBindJSON(&reqBody); err != nil {
-// 		c.JSON(422, gin.H{
-// 			"error":   true,
-// 			"message": "invalid request body",
-// 		})
-// 		return
-// 	}
-
-// 	for i, u := range Users {
-// 		if u.ID == id{	
-// 			Users[i].Name = reqBody.Name
-// 			Users[i].Age = reqBody.Age
-
-// 			c.JSON(200, gin.H{
-// 				"message": "updated User data",
-// 				"data": Users[i],
-// 			})
-// 			return
-// 		}
-// 	}
-// 	c.JSON(404, gin.H{
-// 		"message": "Invalid ID",
-// 		"error": true,
-// 	})
-// }
-// }
-
-// 	func DeleteUser() gin.HandlerFunc {
-
-// 		return func(c *gin.Context) {
-// 			id :=c.Param("id")
 	
-// 			for i, u := range Users {
-// 				if u.ID == id{	
-// 					Users = append(Users[:i], Users[i+1:] ... )
+	func UpdateUser(c *gin.Context)  {
+		db, _ := config.Connect()
+	
+		user := new(User)
+		if err :=c.BindJSON(&user); err != nil {
+				c.JSON(422, gin.H{
+					"error":   true,
+					"message": "invalid request body",
+				})
+				return
+			}
+	
+		id := c.Param("id")
+		_id, _ := primitive.ObjectIDFromHex(id)
+	
+		filter := bson.M{"_id": _id}
+	
+	
+	user.UpdatedAt = time.Now()
+	fmt.Println(user.UpdatedAt)
+	
+		 _,err := db.Collection("user").UpdateOne(ctx, filter, bson.M{"$set": user})
 		
-// 					c.JSON(200, gin.H{
-// 						"message": "delete User data",
-// 						"data": "finished",
-// 					})
-// 					return
-// 				}
-// 			}
-
-// 	c.JSON(404, gin.H{
-// 		"error": true,
-// 		"message": "Invalid User ID",
-// 	})
-		
-// }
-
-// }
+		if err != nil {
+			c.JSON(404, gin.H{
+				"error":   true,
+				"message": "something went wrong",
+			})
+			return
+		}
+		err2 := db.Collection("user").FindOne(ctx, filter).Decode(&user)
+	
+	if config.Error(c, err2) { //hndling with global error 
+		return //exit
+	}
+	
+	c.JSON(200, gin.H{
+		"message": "succesfully updated",
+		"data": user,
+	})
+	
+	}
