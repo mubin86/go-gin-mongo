@@ -68,6 +68,9 @@ func main() {
 
 	r.POST("/upload", handler.FileHandler)
 
+	r.NoRoute(func(c *gin.Context) {
+		c.String(http.StatusNotFound, "Not Found")
+	})
 
 	if err := r.Run(":5000"); err != nil {
 		log.Fatal(err.Error())
