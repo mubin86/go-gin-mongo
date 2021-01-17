@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"go-mongo/config"
+	"log"
 	"time"
 
 	//	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ type User struct {
 	ID  primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name string `json:"name,omitempty" bson:"name,omitempty"`
 	Email string ` idx:"{email},unique" json:"email" bson:"email" binding:"required"`
+	Password string `json:"password" bson:"password" binding:"required"`
 	Phone  int `idx:"{phone},unique" json:"phone" bson:"phone" binding:"required"`
 	Address struct {
 		ZipCode  int    `json:"zipcode" bson:"zipcode"`
@@ -45,6 +47,28 @@ func CreateUser(c *gin.Context)  {
 			})
 			return
 		}
+
+		count, err := db.Collection("user").CountDocuments(ctx, bson.M{"email": user.Email})
+
+		fmt.Println(count)
+		if err != nil {
+			log.Fatal(err)
+			c.JSON(404, gin.H{
+				"error":   true,
+				"message": "something went wrong",
+			})
+			return
+		}
+
+		if count >= 1 {
+			fmt.Println("Documents exist in this collection!")
+			c.JSON(404, gin.H{
+				"error":   true,
+				"message": "email already exist",
+			})
+			return
+	}
+		
 	  	//t := time.Now()
 			//fmt.Println(t.Format(time.ANSIC))
 			
