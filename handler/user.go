@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -74,6 +75,14 @@ func CreateUser(c *gin.Context)  {
 			
 		fmt.Println(user.Name)
 
+		hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	user.Password = string(hash)
+	fmt.Println(user.Password)
+
 		user.CreatedAt = time.Now()
 		user.UpdatedAt = time.Now()
 		
@@ -86,6 +95,7 @@ func CreateUser(c *gin.Context)  {
 
 	_ = db.Collection("user").FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&user)
 
+	user.Password = ""
 		c.JSON(200, gin.H{
 		"message": "successfully added user",
 		"data": user,

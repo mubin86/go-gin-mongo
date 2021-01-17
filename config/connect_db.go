@@ -23,7 +23,7 @@ var ctx = func() context.Context {
 
 func Connect() (*mongo.Database, error) {
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://:@cluster0.4xaod.mongodb.net/gomongo"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://mubin:@cluster0.4xaod.mongodb.net/gomongo"))
 	if err != nil {
 		return nil, err
 	}

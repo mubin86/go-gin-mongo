@@ -17,3 +17,4 @@
 [GIN-debug] GET    /product/title            --> go-mongo/handler.TitleBasedProduct (4 handlers)
 [GIN-debug] POST   /upload                   --> go-mongo/handler.FileHandler (3 handlers)
 [GIN-debug] Listening and serving HTTP on :5000
+::1 - [18 Jan 21 03:45 +06] POST /user/add 200 13.5143273s 
