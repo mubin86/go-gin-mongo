@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+
 	//	"os"
 	"fmt"
 
@@ -14,16 +15,20 @@ var ctx = func() context.Context {
 	return context.Background()
 //	return context.WithTimeout(context.Background(), 10*time.Second)
 }()
+// var err= godotenv.Load()
 
+//   // if err != nil {
+//   //   log.Fatal("Error loading .env file")
+// 	// }
 
-//var dbUserName = os.Getenv("DB_USERNAME")
-//var dbPassword = os.Getenv("DB_PASSWORD")
+// var dbUserName = os.Getenv("DB_USERNAME")
+// var dbPassword = os.Getenv("DB_PASSWORD")
 
 //connect database
 
 func Connect() (*mongo.Database, error) {
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://mubin:@cluster0.4xaod.mongodb.net/gomongo"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://:@cluster0.4xaod.mongodb.net/gomongo"))
 	if err != nil {
 		return nil, err
 	}

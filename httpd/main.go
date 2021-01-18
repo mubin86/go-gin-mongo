@@ -46,6 +46,7 @@ func main() {
 		userRoutes.POST("/add", middleware.BasicAuth(),handler.CreateUser)
 		userRoutes.PUT("/update/:id", middleware.BasicAuth(),handler.UpdateUser)
 		// userRoutes.DELETE("/delete/:id", middleware.BasicAuth(),handler.DeleteUser())
+		userRoutes.POST("/auth/login",handler.LoginUser)
 
 	}
 
