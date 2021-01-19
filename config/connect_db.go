@@ -2,7 +2,6 @@ package config
 
 import (
 	"context"
-
 	//	"os"
 	"fmt"
 
@@ -24,11 +23,11 @@ var ctx = func() context.Context {
 // var dbUserName = os.Getenv("DB_USERNAME")
 // var dbPassword = os.Getenv("DB_PASSWORD")
 
-//connect database
+// connect database
 
 func Connect() (*mongo.Database, error) {
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://:@cluster0.4xaod.mongodb.net/gomongo"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://mubin:mubin007@cluster0.4xaod.mongodb.net/gomongo"))
 	if err != nil {
 		return nil, err
 	}
