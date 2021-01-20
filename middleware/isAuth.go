@@ -34,11 +34,14 @@ func TokenVerify() gin.HandlerFunc {
 				"error":   true,
 				"message": "please provide an valid email or pass or valid token",
 			})
+			c.Abort()
 			return
 		}
-	//	spew.Dump(token) //get info auth or not here token.valid = true
+	//	spew.Dump(token) //get info wether auth or not here token.valid = true if valid
 
 	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// c.MustGet(gin.AuthUserKey)
+    // c.Set(AuthUserKey, user) // can do something if need
 		c.Next()
 		
 	} else {
@@ -46,7 +49,10 @@ func TokenVerify() gin.HandlerFunc {
 		"error":   true,
 		"message": "please try again",
 	})
+	// c.Redirect(http.StatusTemporaryRedirect, "example.com/redirect")
+	// c.AbortWithStatus(http.StatusTemporaryRedirect) //can also do if need
 	return
+	
 }
 			
 		}	
