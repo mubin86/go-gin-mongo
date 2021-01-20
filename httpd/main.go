@@ -40,6 +40,9 @@ func main() {
 
 	r.GET("/ping", handler.PingGet())
 
+
+   // r.Use(middleware.TokenVerify())
+
 	userRoutes := r.Group("/user")
 	{
 		// userRoutes.GET("/", middleware.BasicAuth(),handler.GetUsers())
@@ -55,7 +58,7 @@ func main() {
 	productRoutes.Use(middleware.AdminAuth())
 	{
 		
-		productRoutes.POST("/add",handler.CreateProduct)
+		productRoutes.POST("/add",middleware.TokenVerify(),handler.CreateProduct)
 		productRoutes.GET("/products",handler.GetProducts)
 		productRoutes.GET("/product/:id",handler.SingleProduct)
 		productRoutes.PUT("/update/:id",handler.UpdateProduct)

@@ -1,10 +1,8 @@
 package handler
 
 import (
-	"fmt"
 	"go-mongo/config"
 	"log"
-	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -23,9 +21,14 @@ type Data struct {
 	Password string `json:"password,omitempty" bson:"password,omitempty" binding:"required"`
 }
 
+
 func createToken(userName string) (string,error) {
-	jwtSecret := os.Getenv("JWT_SECRET")
-	fmt.Println(jwtSecret)
+// 	err := godotenv.Load("../.env")
+// if err != nil {
+// 	log.Fatal("Error loading .env file")
+// }
+//	jwtSecret := os.Getenv("JWT_SECRET")
+//	fmt.Println(jwtSecret)
 
 claims := jwt.MapClaims{}
 claims["authorized"] = true
@@ -33,7 +36,7 @@ claims["user_id"] = userName
 claims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 token:= jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-tokenString,err := token.SignedString([]byte(jwtSecret))
+tokenString,err := token.SignedString([]byte("secret")) //ENV_JWT_SECRET=secret
 
 if err != nil {
 	log.Fatal("unable to generate the token")
@@ -83,7 +86,7 @@ func LoginUser(c *gin.Context)  {
 	//c.Response().Header.Set("auth-token", token)
 
 	// c.Request.Response().Header.Set("auth-token", token)
-	c.Header("auth-token", token)
+	c.Header("x-auth-token", "Bearer "+token)
 
 	login.Password = ""
 	c.JSON(200, gin.H{
