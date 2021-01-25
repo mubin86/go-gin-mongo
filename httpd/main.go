@@ -58,7 +58,7 @@ func main() {
 	productRoutes.Use(middleware.AdminAuth())
 	{
 		
-		productRoutes.POST("/add",middleware.TokenVerify(),handler.CreateProduct)
+		productRoutes.POST("/add",middleware.TokenVerify(),middleware.IsAdmin(),handler.CreateProduct)
 		productRoutes.GET("/products",handler.GetProducts)
 		productRoutes.GET("/product/:id",handler.SingleProduct)
 		productRoutes.PUT("/update/:id",handler.UpdateProduct)

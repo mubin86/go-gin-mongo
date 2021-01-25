@@ -14,15 +14,17 @@ import (
 type Login struct {
   Email string `json:"email,omitempty" bson:"email,omitempty"`
 	Password string `json:"password,omitempty" bson:"password,omitempty"`
+	IsAdmin bool `json:"isadmin,omitempty" bson:"isadmin"`
 }
 
 type Data struct {
   Email string `json:"email,omitempty" bson:"email,omitempty" binding:"required"`
 	Password string `json:"password,omitempty" bson:"password,omitempty" binding:"required"`
+	IsAdmin bool `json:"isadmin,omitempty" bson:"isadmin"`
 }
 
 
-func createToken(userName string) (string,error) {
+func (u Data)createToken() (string,error) {
 // 	err := godotenv.Load("../.env")
 // if err != nil {
 // 	log.Fatal("Error loading .env file")
@@ -31,8 +33,8 @@ func createToken(userName string) (string,error) {
 //	fmt.Println(jwtSecret)
 
 claims := jwt.MapClaims{}
-claims["authorized"] = true
-claims["user_id"] = userName
+claims["authorized"] = u.IsAdmin
+claims["user_id"] = u.Email
 claims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 token:= jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
@@ -77,7 +79,7 @@ func LoginUser(c *gin.Context)  {
 		c.JSON(402, gin.H{"error": "Email or password is invalid."})
 		return
 	}
-	token, tokenerr :=createToken(login.Email)
+	token, tokenerr := data.createToken()
 	if tokenerr != nil {
 		c.JSON(402, gin.H{"error": "unable to generate the token"})
 		return
